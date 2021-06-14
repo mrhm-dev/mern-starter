@@ -31,6 +31,10 @@ if (localStorage.token) {
 	setAuthToken(localStorage.token);
 }
 
+function MyPrivateComponent() {
+	return <h1>I am King</h1>;
+}
+
 function App() {
 	// Second param of empty brackets acts as a component did mount and prevents from constantly running
 	useEffect(() => {
@@ -112,6 +116,11 @@ function App() {
 								exact
 								path='/posts/:id'
 								component={Post}
+							/>
+							<PrivateRoute
+								exact
+								path='/my/private/component'
+								component={MyPrivateComponent}
 							/>
 						</Switch>
 					</section>
