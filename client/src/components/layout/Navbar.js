@@ -1,5 +1,5 @@
-import React, { Fragment, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -19,7 +19,6 @@ import {
 import { logout } from '../../actions/auth';
 
 const Avatar = ({ user }) => {
-	console.log('Avatar', user);
 	return (
 		<div
 			style={{
@@ -43,8 +42,12 @@ const Avatar = ({ user }) => {
 
 const TopNavbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
 	const [isOpen, setIsOpen] = useState(false);
-
 	const toggle = () => setIsOpen(!isOpen);
+
+	const location = useLocation();
+	const isActive = (route) => {
+		return location.pathname === route;
+	};
 
 	const AuthLinks = (
 		<Nav
@@ -54,17 +57,17 @@ const TopNavbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
 		>
 			<NavItem>
 				<Link to='/profiles'>
-					<NavLink>Users</NavLink>
+					<NavLink active={isActive('/profiles')}>Users</NavLink>
 				</Link>
 			</NavItem>
 			<NavItem>
 				<Link to='/posts'>
-					<NavLink>Posts</NavLink>
+					<NavLink active={isActive('/posts')}>Posts</NavLink>
 				</Link>
 			</NavItem>
 			<NavItem>
 				<Link to='/contact'>
-					<NavLink>Contact</NavLink>
+					<NavLink active={isActive('/contact')}>Contact</NavLink>
 				</Link>
 			</NavItem>
 			<UncontrolledDropdown nav inNavbar>
@@ -100,7 +103,7 @@ const TopNavbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
 					<DropdownItem>
 						<a
 							onClick={logout}
-							href='#!'
+							href='/login'
 							style={{ color: 'black' }}
 						>
 							<i className='fas fa-sign-out-alt'></i>{' '}
@@ -116,22 +119,22 @@ const TopNavbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
 		<Nav className='ml-auto' navbar>
 			<NavItem>
 				<Link to='/profiles'>
-					<NavLink>Users</NavLink>
+					<NavLink active={isActive('/profiles')}>Users</NavLink>
 				</Link>
 			</NavItem>
 			<NavItem>
 				<Link to='/register'>
-					<NavLink>Register</NavLink>
+					<NavLink active={isActive('/register')}>Register</NavLink>
 				</Link>
 			</NavItem>
 			<NavItem>
 				<Link to='/login'>
-					<NavLink>Login</NavLink>
+					<NavLink active={isActive('/login')}>Login</NavLink>
 				</Link>
 			</NavItem>
 			<NavItem>
 				<Link to='/contact'>
-					<NavLink>Contact</NavLink>
+					<NavLink active={isActive('/contact')}>Contact</NavLink>
 				</Link>
 			</NavItem>
 		</Nav>
@@ -142,7 +145,7 @@ const TopNavbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
 			<Navbar color='dark' dark expand='md'>
 				<Link to='/'>
 					<NavbarBrand>
-						<i className='fas fa-terminal'></i> MERN Auth
+						<i className='fas fa-terminal'></i> MERN Starter
 					</NavbarBrand>
 				</Link>
 				<NavbarToggler onClick={toggle} />

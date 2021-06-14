@@ -1,23 +1,23 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { Alert } from 'reactstrap';
 
-const Alert = ({ alerts }) =>
-  alerts !== null &&
-  alerts.length > 0 &&
-  //   Dynamically style alert based on type
-  alerts.map(alert => (
-    <div key={alert.id} className={`alert alert-${alert.alertType}`}>
-      {alert.msg}
-    </div>
-  ));
+const MyAlert = () => {
+	const alerts = useSelector((state) => state.alert);
 
-Alert.propTypes = {
-  alerts: PropTypes.array.isRequired,
+	if (alerts === null || alerts.length === 0) {
+		return null;
+	}
+
+	return (
+		<>
+			{alerts.map((alert) => (
+				<Alert key={alert.id} color={alert.type}>
+					{alert.msg}
+				</Alert>
+			))}
+		</>
+	);
 };
 
-const mapStateToProps = state => ({
-  alerts: state.alert,
-});
-
-export default connect(mapStateToProps)(Alert);
+export default MyAlert;
